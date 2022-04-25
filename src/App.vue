@@ -1,16 +1,29 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>{{ fact }}</h1>
+  <li v-for="fact in facts" :key="fact.id">
+    <Fact :fact="fact.text"/>
+  </li>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Fact from './components/Fact.vue'
+import axios from 'axios'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      facts: ''
+    }
+  },
   components: {
-    HelloWorld
-  }
+    Fact
+  },
+ mounted(){
+   axios
+    .get('https://cat-fact.herokuapp.com/facts')
+    .then(response => this.facts = response.data)
+ }
 }
 </script>
 
